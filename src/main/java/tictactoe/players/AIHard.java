@@ -1,9 +1,7 @@
 package tictactoe.players;
 
-import tictactoe.Main;
-import static tictactoe.Board.ticTacToeGrid;
-import static tictactoe.Game.canWin;
-import static tictactoe.Game.hardWin;
+import static tictactoe.Board.*;
+import static tictactoe.players.MinMax.*;
 
 /**
  * Class AI hard strategy player
@@ -24,30 +22,6 @@ public class AIHard implements MakeTurnMethod {
     @Override
     public void makeTurn() {
         System.out.println("Making move level \"hard\"");
-        while (true) {
-            String iAmWin = canWin(sign);
-            String heCanWin = canWin(sign == Main.signX ? Main.signO : Main.signX);
-            if ("--".equals(heCanWin) && "--".equals(iAmWin)) {
-                String xy = hardWin(sign);
-                if (!"--".equals(xy)) {
-                    String[] xyArray = xy.split("(?!^)");
-                    ticTacToeGrid[Integer.parseInt(xyArray[0])][Integer.parseInt(xyArray[1])] = sign;
-                    break;
-                } else {
-                    int[] array = RandomTurn.generate();
-                    ticTacToeGrid[array[0]][array[1]] = sign;
-                    break;
-                }
-            } else if ("--".equals(heCanWin) && !"--".equals(iAmWin) ||
-                    !"--".equals(heCanWin) && !"--".equals(iAmWin)) {
-                String[] xy = iAmWin.split("(?!^)");
-                ticTacToeGrid[Integer.parseInt(xy[0])][Integer.parseInt(xy[1])] = sign;
-                break;
-            } else if (!"--".equals(heCanWin) && "--".equals(iAmWin)){
-                String[] xy = heCanWin.split("(?!^)");
-                ticTacToeGrid[Integer.parseInt(xy[0])][Integer.parseInt(xy[1])] = sign;
-                break;
-            }
-        }
+        makeMove(ticTacToeGrid, sign);
     }
 }
